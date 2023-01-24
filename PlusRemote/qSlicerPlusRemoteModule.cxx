@@ -151,7 +151,7 @@ QIcon qSlicerPlusRemoteModule::icon() const
 //-----------------------------------------------------------------------------
 QStringList qSlicerPlusRemoteModule::categories() const
 {
-  return QStringList() << "IGT";
+  return QStringList() << "GRPC_IGT";
 }
 
 //-----------------------------------------------------------------------------

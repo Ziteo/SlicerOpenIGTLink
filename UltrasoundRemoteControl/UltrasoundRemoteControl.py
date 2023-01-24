@@ -12,7 +12,7 @@ class UltrasoundRemoteControl(ScriptedLoadableModule):
   def __init__(self, parent):
     ScriptedLoadableModule.__init__(self, parent)
     self.parent.title = "Ultrasound Remote Control"
-    self.parent.categories = ["IGT"]
+    self.parent.categories = ["GRPC_IGT"]
     self.parent.dependencies = ["OpenIGTLinkRemote"]
     self.parent.contributors = ["Kyle Sunderland (PerkLab, Queen's University), Tamas Ungi (PerkLab, Queen's University), Andras Lasso (PerkLab, Queen's University)"]
     self.parent.helpText = """TODO"""

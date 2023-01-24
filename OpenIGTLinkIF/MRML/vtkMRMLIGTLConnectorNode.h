@@ -29,9 +29,11 @@
 #include <vtkWeakPointer.h>
 
 // OpenIGTLink includes
+  // TODO: GRPC replace OpenIGTLink
 #include "igtlOSUtil.h"
 
 // OpenIGTLinkIO includes
+  // TODO: GRPC replace OpenIGTLinkIO
 #include <igtlioCommand.h>
 #include <igtlioConnector.h>
 #include <igtlioDeviceFactory.h>

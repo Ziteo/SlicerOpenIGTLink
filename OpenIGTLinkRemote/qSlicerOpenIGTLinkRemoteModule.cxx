@@ -109,7 +109,7 @@ QIcon qSlicerOpenIGTLinkRemoteModule
 QStringList qSlicerOpenIGTLinkRemoteModule
 ::categories() const
 {
-  return QStringList() << "IGT";
+  return QStringList() << "GRPC_IGT";
 }
 
 

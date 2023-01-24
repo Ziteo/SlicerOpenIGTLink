@@ -13,6 +13,7 @@ Version:   $Revision: 1.2 $
 =========================================================================auto=*/
 
 // OpenIGTLink includes
+  // TODO: GRPC replace OpenIGTLink
 #include "igtlOSUtil.h"
 
 // OpenIGTLinkIO include

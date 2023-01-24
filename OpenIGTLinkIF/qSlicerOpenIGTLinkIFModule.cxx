@@ -116,7 +116,7 @@ QIcon qSlicerOpenIGTLinkIFModule::icon()const
 //-----------------------------------------------------------------------------
 QStringList qSlicerOpenIGTLinkIFModule::categories() const
 {
-  return QStringList() << "IGT";
+  return QStringList() << "GRPC_IGT";
 }
 
 

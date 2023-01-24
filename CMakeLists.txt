@@ -5,7 +5,7 @@ project(SlicerOpenIGTLink)
 #-----------------------------------------------------------------------------
 # Extension meta-information
 set(EXTENSION_HOMEPAGE "https://github.com/openigtlink/SlicerOpenIGTLink")
-set(EXTENSION_CATEGORY "IGT")
+set(EXTENSION_CATEGORY "GRPC_IGT")
 set(EXTENSION_CONTRIBUTORS "Junichi Tokuda (SPL), Longquan Chen (SPL)")
 set(EXTENSION_DESCRIPTION "This extension adds OpenIGTLink communication interface to 3D Slicer to exchange real-time imaging, tracking, and other data.")
 set(EXTENSION_ICONURL "https://raw.githubusercontent.com/openigtlink/SlicerOpenIGTLink/master/OpenIGTLinkIF.png")

@@ -8,7 +8,7 @@ class GenericSerialDeviceRemoteControl(ScriptedLoadableModule):
     def __init__(self, parent):
         ScriptedLoadableModule.__init__(self, parent)
         self.parent.title = "Serial Device Remote Control"
-        self.parent.categories = ["IGT"]
+        self.parent.categories = ["GRPC_IGT"]
         self.parent.dependencies = ["OpenIGTLinkRemote"]
         self.parent.contributors = ["Adam Aji (SonoVol, PerkinElmer)"]
         self.parent.helpText = """
