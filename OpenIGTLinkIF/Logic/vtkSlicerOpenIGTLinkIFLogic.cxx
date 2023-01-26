@@ -108,6 +108,7 @@ vtkSlicerOpenIGTLinkIFLogic::vtkInternal::~vtkInternal()
 //---------------------------------------------------------------------------
 vtkSlicerOpenIGTLinkIFLogic::vtkSlicerOpenIGTLinkIFLogic()
 {
+  vtkInfoWithoutObjectMacro("vtkSlicerOpenIGTLinkIFLogic:");
   this->Internal = new vtkInternal(this);
 
   // Timer Handling
@@ -319,6 +320,7 @@ vtkMRMLIGTLConnectorNode* vtkSlicerOpenIGTLinkIFLogic::GetConnector(const char* 
 //---------------------------------------------------------------------------
 void vtkSlicerOpenIGTLinkIFLogic::CallConnectorTimerHander()
 {
+  vtkInfoWithoutObjectMacro("vtkSlicerOpenIGTLinkIFLogic::CallConnectorTimerHander()   Calls   connector->PeriodicProcess");
   //ConnectorMapType::iterator cmiter;
   std::vector<vtkMRMLNode*> nodes;
   this->GetMRMLScene()->GetNodesByClass("vtkMRMLIGTLConnectorNode", nodes);

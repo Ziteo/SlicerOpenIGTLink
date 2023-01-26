@@ -33,6 +33,9 @@ Version:   $Revision: 1.2 $
 #include <igtlioVideoDevice.h>
 #endif
 
+// vtkAddon includes
+#include <vtkTestingOutputWindow.h>
+
 // OpenIGTLinkIF MRML includes
 #include "vtkMRMLIGTLConnectorNode.h"
 #include "vtkMRMLIGTLStatusNode.h"
@@ -163,6 +166,7 @@ vtkMRMLIGTLConnectorNode::vtkInternal::~vtkInternal()
 //----------------------------------------------------------------------------
 unsigned int vtkMRMLIGTLConnectorNode::AssignOutGoingNodeToDevice(vtkMRMLNode* node, igtlioDevicePointer device)
 {
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::AssignOutGoingNodeToDevice(...); Check Device is Types IMAGE, etc");
   this->Internal->OutgoingMRMLIDToDeviceMap[node->GetID()] = device;
   unsigned int modifiedEvent = 0;
   if (device->GetDeviceType().compare("IMAGE") == 0)
@@ -338,6 +342,7 @@ void vtkMRMLIGTLConnectorNode::vtkInternal::ProcessOutgoingDeviceModifiedEvent(
 void vtkMRMLIGTLConnectorNode::ProcessIncomingDeviceModifiedEvent(
   vtkObject* vtkNotUsed(caller), unsigned long vtkNotUsed(event), igtlioDevice* modifiedDevice)
 {
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::ProcessIncomingDeviceModifiedEvent");
   vtkMRMLNode* modifiedNode = this->GetMRMLNodeForDevice(modifiedDevice);
   bool isNewNodeCreated = false;
   if (!modifiedNode)
@@ -704,6 +709,7 @@ vtkMRMLNode* vtkMRMLIGTLConnectorNode::GetMRMLNodeForDevice(igtlioDevice* device
 //----------------------------------------------------------------------------
 vtkMRMLNode* vtkMRMLIGTLConnectorNode::CreateNewMRMLNodeForDevice(igtlioDevice *device)
 {
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice with VolumeNode Received By OpenIGTLink");
   vtkMRMLScene* scene = this->GetScene();
   if (!scene)
   {
@@ -719,6 +725,7 @@ vtkMRMLNode* vtkMRMLIGTLConnectorNode::CreateNewMRMLNodeForDevice(igtlioDevice *
   }
 
   // Node not found and add the node
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Check Device is IMAGE");
   if (strcmp(device->GetDeviceType().c_str(), "IMAGE") == 0)
   {
     vtkSmartPointer<vtkMRMLVolumeNode> volumeNode;
@@ -826,6 +833,7 @@ vtkMRMLNode* vtkMRMLIGTLConnectorNode::CreateNewMRMLNodeForDevice(igtlioDevice *
     return volumeNode;
   }
 #if defined(OpenIGTLink_ENABLE_VIDEOSTREAMING)
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Check Device is VIDEO");
   else if (strcmp(device->GetDeviceType().c_str(), "VIDEO") == 0)
   {
     igtlioVideoDevice* videoDevice = reinterpret_cast<igtlioVideoDevice*>(device);
@@ -875,6 +883,7 @@ vtkMRMLNode* vtkMRMLIGTLConnectorNode::CreateNewMRMLNodeForDevice(igtlioDevice *
     return streamingVolumeNode;
   }
 #endif
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Check Device is STATUS");
   else if (strcmp(device->GetDeviceType().c_str(), "STATUS") == 0)
   {
     vtkSmartPointer<vtkMRMLIGTLStatusNode> statusNode =
@@ -1195,6 +1204,7 @@ void vtkMRMLIGTLConnectorNode::vtkInternal::RemoveExpiredQueries()
 //----------------------------------------------------------------------------
 vtkMRMLIGTLConnectorNode::vtkMRMLIGTLConnectorNode()
 {
+  vtkInfoWithoutObjectMacro("vtkMRMLIGTLConnectorNode:   ");
   this->Internal = new vtkInternal(this);
   this->HideFromEditors = false;
   this->UseStreamingVolume = false;
@@ -1331,6 +1341,7 @@ void vtkMRMLIGTLConnectorNode::ProcessMRMLEvents(vtkObject* caller, unsigned lon
 //----------------------------------------------------------------------------
 void vtkMRMLIGTLConnectorNode::ProcessIOConnectorEvents(vtkObject* caller, unsigned long event, void* callData)
 {
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::ProcessIOConnectorEvents");
   igtlioConnector* connector = igtlioConnector::SafeDownCast(caller);
   if (connector == NULL)
   {
@@ -1429,6 +1440,7 @@ void vtkMRMLIGTLConnectorNode::PushOnConnect()
 //----------------------------------------------------------------------------
 void vtkMRMLIGTLConnectorNode::ProcessIODeviceEvents(vtkObject* caller, unsigned long event, void* callData)
 {
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::ProcessIODeviceEvents");
   igtlioDevice* modifiedDevice = igtlioDevice::SafeDownCast(caller);
   if (modifiedDevice == NULL)
   {
@@ -2130,6 +2142,7 @@ void vtkMRMLIGTLConnectorNode::UnregisterOutgoingMRMLNode(vtkMRMLNode* node)
 //---------------------------------------------------------------------------
 unsigned int vtkMRMLIGTLConnectorNode::GetNumberOfIncomingMRMLNodes()
 {
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::GetNumberOfIncomingMRMLNodes");
   //return this->IncomingMRMLNodeInfoMap.size();
   return this->GetNumberOfNodeReferences(this->GetIncomingNodeReferenceRole());
 }
@@ -2138,6 +2151,7 @@ unsigned int vtkMRMLIGTLConnectorNode::GetNumberOfIncomingMRMLNodes()
 //---------------------------------------------------------------------------
 vtkMRMLNode* vtkMRMLIGTLConnectorNode::GetIncomingMRMLNode(unsigned int i)
 {
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::GetIncomingMRMLNode");
   if (i < (unsigned int)this->GetNumberOfNodeReferences(this->GetIncomingNodeReferenceRole()))
   {
     vtkMRMLScene* scene = this->GetScene();
@@ -2157,6 +2171,7 @@ vtkMRMLNode* vtkMRMLIGTLConnectorNode::GetIncomingMRMLNode(unsigned int i)
 //---------------------------------------------------------------------------
 int vtkMRMLIGTLConnectorNode::PushNode(vtkMRMLNode* node)
 {
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::PushNode    calls   AssignOutGoingNodeToDevice(..)");
   if (!node)
   {
     return 0;
@@ -2500,6 +2515,7 @@ int vtkMRMLIGTLConnectorNode::Stop()
 //---------------------------------------------------------------------------
 void vtkMRMLIGTLConnectorNode::PeriodicProcess()
 {
+  vtkInfoWithoutObjectMacro("vtkMRMLIGTLConnectorNode::PeriodicProcess()   Calls   IOConnector->PeriodicProcess");
   SlicerRenderBlocker renderBlocker;
 
   this->Internal->IOConnector->PeriodicProcess();

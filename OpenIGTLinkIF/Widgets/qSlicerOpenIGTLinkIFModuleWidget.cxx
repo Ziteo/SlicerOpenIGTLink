@@ -10,6 +10,9 @@
 // qMRMLWidgets includes
 #include <qMRMLNodeFactory.h>
 
+// vtkAddon includes
+#include <vtkTestingOutputWindow.h>
+
 // OpenIGTLinkIF Logic includes
 #include "vtkSlicerOpenIGTLinkIFLogic.h"
 
@@ -54,6 +57,7 @@ qSlicerOpenIGTLinkIFModuleWidget::qSlicerOpenIGTLinkIFModuleWidget(QWidget* _par
   : Superclass(_parent)
   , d_ptr(new qSlicerOpenIGTLinkIFModuleWidgetPrivate(*this))
 {
+  vtkInfoWithoutObjectMacro("qSlicerOpenIGTLinkIFModuleWidget:   QWidget* _parent");
 }
 
 //-----------------------------------------------------------------------------
@@ -64,6 +68,7 @@ qSlicerOpenIGTLinkIFModuleWidget::~qSlicerOpenIGTLinkIFModuleWidget()
 //-----------------------------------------------------------------------------
 void qSlicerOpenIGTLinkIFModuleWidget::setup()
 {
+  vtkInfoWithoutObjectMacro("**Widget:   setup()");
   Q_D(qSlicerOpenIGTLinkIFModuleWidget);
   d->setupUi(this);
   this->Superclass::setup();

@@ -15,6 +15,9 @@
 // Qt includes
 #include <QTimer>
 
+// vtkAddon includes
+#include <vtkTestingOutputWindow.h>
+
 // Slicer base includes
 #include "vtkSlicerVersionConfigure.h" // For Slicer_VERSION_MAJOR,Slicer_VERSION_MINOR
 #include <qSlicerCoreApplication.h>
@@ -83,6 +86,7 @@ qSlicerOpenIGTLinkIFModule::qSlicerOpenIGTLinkIFModule(QObject* _parent)
                       this, SLOT(onNodeRemovedEvent(vtkObject*, vtkObject*)));
   }
   //d->ImportDataAndEventsTimer.start(5);
+  vtkInfoWithoutObjectMacro("qSlicerOpenIGTLinkIFModule calls connect to ImportDataAndEvents   Into   vtkMRMLScene* scene");
 }
 
 //-----------------------------------------------------------------------------
@@ -167,6 +171,7 @@ vtkMRMLAbstractLogic* qSlicerOpenIGTLinkIFModule::createLogic()
 // --------------------------------------------------------------------------
 void qSlicerOpenIGTLinkIFModule::onNodeAddedEvent(vtkObject*, vtkObject* node)
 {
+  vtkInfoWithoutObjectMacro("qSlicerOpenIGTLinkIFModule::onNodeAddedEvent(...)  Added  vtkMRMLIGTLConnectorNode");
   Q_D(qSlicerOpenIGTLinkIFModule);
 
   vtkMRMLIGTLConnectorNode* connectorNode = vtkMRMLIGTLConnectorNode::SafeDownCast(node);
@@ -184,6 +189,7 @@ void qSlicerOpenIGTLinkIFModule::onNodeAddedEvent(vtkObject*, vtkObject* node)
 // --------------------------------------------------------------------------
 void qSlicerOpenIGTLinkIFModule::onNodeRemovedEvent(vtkObject*, vtkObject* node)
 {
+  vtkInfoWithoutObjectMacro("qSlicerOpenIGTLinkIFModule:   onNodeRemovedEvent(...)  DEL  vtkMRMLIGTLConnectorNode");
   Q_D(qSlicerOpenIGTLinkIFModule);
 
   vtkMRMLIGTLConnectorNode* connectorNode = vtkMRMLIGTLConnectorNode::SafeDownCast(node);
@@ -212,6 +218,7 @@ void qSlicerOpenIGTLinkIFModule::onNodeRemovedEvent(vtkObject*, vtkObject* node)
 //-----------------------------------------------------------------------------
 void qSlicerOpenIGTLinkIFModule::importDataAndEvents()
 {
+  vtkInfoWithoutObjectMacro("qSlicerOpenIGTLinkIFModule::ImportDataAndEvents(...)   Calls   igtlLogic->CallConnectorTimerHander");
   vtkMRMLAbstractLogic* l = this->logic();
   vtkSlicerOpenIGTLinkIFLogic* igtlLogic = vtkSlicerOpenIGTLinkIFLogic::SafeDownCast(l);
   if (igtlLogic)
