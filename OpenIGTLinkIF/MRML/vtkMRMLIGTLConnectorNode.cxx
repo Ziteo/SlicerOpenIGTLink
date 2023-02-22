@@ -725,7 +725,7 @@ vtkMRMLNode* vtkMRMLIGTLConnectorNode::CreateNewMRMLNodeForDevice(igtlioDevice *
   }
 
   // Node not found and add the node
-  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Check Device is IMAGE");
+  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Multi Checks Device is IMAGE, etc");
   if (strcmp(device->GetDeviceType().c_str(), "IMAGE") == 0)
   {
     vtkSmartPointer<vtkMRMLVolumeNode> volumeNode;
@@ -833,9 +833,9 @@ vtkMRMLNode* vtkMRMLIGTLConnectorNode::CreateNewMRMLNodeForDevice(igtlioDevice *
     return volumeNode;
   }
 #if defined(OpenIGTLink_ENABLE_VIDEOSTREAMING)
-  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Check Device is VIDEO");
   else if (strcmp(device->GetDeviceType().c_str(), "VIDEO") == 0)
   {
+    vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Check Device is VIDEO");
     igtlioVideoDevice* videoDevice = reinterpret_cast<igtlioVideoDevice*>(device);
     igtlioVideoConverter::ContentData content = videoDevice->GetContent();
     if (!content.frameData)
@@ -883,9 +883,9 @@ vtkMRMLNode* vtkMRMLIGTLConnectorNode::CreateNewMRMLNodeForDevice(igtlioDevice *
     return streamingVolumeNode;
   }
 #endif
-  vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Check Device is STATUS");
   else if (strcmp(device->GetDeviceType().c_str(), "STATUS") == 0)
   {
+    vtkInfoWithoutObjectMacro("**IGTLConnectorNode::CreateNewMRMLNodeForDevice Check Device is STATUS");
     vtkSmartPointer<vtkMRMLIGTLStatusNode> statusNode =
       vtkMRMLIGTLStatusNode::SafeDownCast(this->GetScene()->GetFirstNode(deviceName.c_str(), "vtkMRMLIGTLStatusNode"));
     if (statusNode)

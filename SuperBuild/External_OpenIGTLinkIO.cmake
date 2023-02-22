@@ -26,9 +26,12 @@ if(NOT DEFINED OpenIGTLinkIO_DIR AND NOT ${CMAKE_PROJECT_NAME}_USE_SYSTEM_${proj
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
+  #https://github.com/james94/OpenIGTLinkIO
+
   ExternalProject_SetIfNotDefined(
     ${CMAKE_PROJECT_NAME}_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/IGSIO/OpenIGTLinkIO.git"
+    # "${EP_GIT_PROTOCOL}://github.com/IGSIO/OpenIGTLinkIO.git"
+    "${EP_GIT_PROTOCOL}://github.com/james94/OpenIGTLinkIO.git"
     QUIET
     )
 
