@@ -370,6 +370,7 @@ void vtkMRMLIGTLConnectorNode::ProcessIncomingDeviceModifiedEvent(
   {
     if (strcmp(deviceType.c_str(), "IMAGE") == 0)
     {
+      // TODO: Could potentially place slice view pose scan time here
       igtlioImageDevice* imageDevice = reinterpret_cast<igtlioImageDevice*>(modifiedDevice);
       vtkMRMLVolumeNode* volumeNode = vtkMRMLVolumeNode::SafeDownCast(modifiedNode);
       if (volumeNode)
@@ -1240,6 +1241,10 @@ vtkMRMLIGTLConnectorNode::vtkMRMLIGTLConnectorNode()
   this->Internal->DeviceTypeToNodeTagMap["IMGMETA"] = std::vector<std::string>(1, "ImageMetaList");
   this->Internal->DeviceTypeToNodeTagMap["LBMETA"] = std::vector<std::string>(1, "LabelMetaList");
   this->Internal->DeviceTypeToNodeTagMap["TDATA"] = std::vector<std::string>(1, "IGTLTrackingDataSplitter");
+
+  // Ziteo Pose Scan Time code
+  this->sliceViewPoseScanTime = qSlicerApplication::application()->layoutManager()->sliceWidget("Green")->sliceView();
+  this->startPoseScanTime = clock(); // pose scan start time
 }
 
 //----------------------------------------------------------------------------
@@ -1394,6 +1399,8 @@ void vtkMRMLIGTLConnectorNode::ProcessIOConnectorEvents(vtkObject* caller, unsig
     connector->SendMessage(igtlioDeviceKeyType::CreateDeviceKey(statusDevice));
     connector->RemoveDevice(statusDevice);
 
+    this->DisplayPoseScanTime();
+
     this->PushOnConnect();
   }
   else if (mrmlEvent == DisconnectedEvent)
@@ -1435,6 +1442,11 @@ void vtkMRMLIGTLConnectorNode::PushOnConnect()
       this->PushNode(node);
     }
   }
+}
+
+void vtkMRMLIGTLConnectorNode::DisplayPoseScanTime()
+{
+
 }
 
 //----------------------------------------------------------------------------
@@ -2518,8 +2530,12 @@ void vtkMRMLIGTLConnectorNode::PeriodicProcess()
   vtkInfoWithoutObjectMacro("vtkMRMLIGTLConnectorNode::PeriodicProcess()   Calls   IOConnector->PeriodicProcess");
   SlicerRenderBlocker renderBlocker;
 
+  // After we add IGTL Connector to OpenIGTLinkIF, then set to Active, and our Gamma Recon Server connected,
+  // PeriodicProcess has multiple methods called, we care about import Data From CircularBuffer() that one
+  // receives our IGTLMessage from Gamma Recon Server. Also AboutToReceiveEvent and ReceiveEvent are set
   this->Internal->IOConnector->PeriodicProcess();
 
+  // I think this next code updates our OpenIGTLinkIF slice views for IGTL Connector Node with PIM images
   while (!this->Internal->PendingNodeModifications.empty())
   {
     vtkInternal::NodeModification wasModifying = this->Internal->PendingNodeModifications.back();
@@ -2532,6 +2548,11 @@ void vtkMRMLIGTLConnectorNode::PeriodicProcess()
   }
 
   this->Internal->RemoveExpiredQueries();
+  clock_t endPoseScanTime = clock() - this->startPoseScanTime;
+  double poseScanExecTime = ((double)endPoseScanTime/CLOCKS_PER_SEC); // sec
+  std::string poseScanTime = "Pose Scan Time: " + std::to_string(poseScanExecTime);
+  this->sliceViewPoseScanTime->overlayCornerAnnotation()->SetText(vtk::vtkCornerAnnotation.UpperRight, poseScanTime.c_str());
+  this->startPoseScanTime = clock(); // restart poseScan Timer
 }
 
 //---------------------------------------------------------------------------

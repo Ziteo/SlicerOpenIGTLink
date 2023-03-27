@@ -6,7 +6,7 @@ project(SlicerOpenIGTLink)
 # Extension meta-information
 set(EXTENSION_HOMEPAGE "https://github.com/openigtlink/SlicerOpenIGTLink")
 set(EXTENSION_CATEGORY "GRPC_IGT")
-set(EXTENSION_CONTRIBUTORS "Junichi Tokuda (SPL), Longquan Chen (SPL)")
+set(EXTENSION_CONTRIBUTORS "Junichi Tokuda (SPL), Longquan Chen (SPL), James Guzman (Ziteo Medical)")
 set(EXTENSION_DESCRIPTION "This extension adds OpenIGTLink communication interface to 3D Slicer to exchange real-time imaging, tracking, and other data.")
 set(EXTENSION_ICONURL "https://raw.githubusercontent.com/openigtlink/SlicerOpenIGTLink/master/OpenIGTLinkIF.png")
 set(EXTENSION_SCREENSHOTURLS "https://raw.githubusercontent.com/openigtlink/SlicerOpenIGTLink/master/Screenshots/Overview.png")
@@ -42,6 +42,8 @@ add_subdirectory(OpenIGTLinkRemote)
 add_subdirectory(PlusRemote)
 add_subdirectory(UltrasoundRemoteControl)
 add_subdirectory(GenericSerialDeviceRemoteControl)
+# add_subdirectory(PoseScanPositioning)
+# add_subdirectory(PoseScanTime)
 ## NEXT_MODULE
 
 #-----------------------------------------------------------------------------

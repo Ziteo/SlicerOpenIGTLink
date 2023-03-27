@@ -355,6 +355,13 @@ protected:
   virtual void ProcessIncomingDeviceModifiedEvent(vtkObject* caller, unsigned long event, igtlioDevice* modifiedDevice);
   virtual vtkMRMLNode* GetMRMLNodeForDevice(igtlioDevice* device);
 
+  //------------------
+  // Ziteo Pose Scan Timing
+  //------------------
+  qMRMLSliceView* sliceViewPoseScanTime; 
+  clock_t startPoseScanTime;
+  clock_t endPoseScanTime;
+
 private:
   class vtkInternal;
   vtkInternal* Internal;
