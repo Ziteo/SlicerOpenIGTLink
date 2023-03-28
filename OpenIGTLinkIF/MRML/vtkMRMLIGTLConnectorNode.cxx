@@ -2547,9 +2547,9 @@ void vtkMRMLIGTLConnectorNode::PeriodicProcess()
   this->Internal->RemoveExpiredQueries();
   clock_t endPoseScanTime = clock() - this->startPoseScanTime;
   double poseScanExecTime = ((double)endPoseScanTime/CLOCKS_PER_SEC); // sec
-  std::string poseScanTime = "Pose Scan Time: " + std::to_string(poseScanExecTime);
+  std::string poseScanTime = "Pose Scan Time (secs): " + std::to_string(poseScanExecTime);
   vtkCornerAnnotation* cornerAnnotation = this->sliceViewPoseScanTime->overlayCornerAnnotation();
-  cornerAnnotation->SetText(vtkCornerAnnotation::TextPosition::UpperRight, poseScanTime.c_str());
+  cornerAnnotation->SetText(vtkCornerAnnotation::TextPosition::LowerRight, poseScanTime.c_str());
   this->startPoseScanTime = clock(); // restart poseScan Timer
 }
 
