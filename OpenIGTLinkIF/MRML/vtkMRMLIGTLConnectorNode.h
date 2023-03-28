@@ -39,6 +39,12 @@
 #include <igtlioDeviceFactory.h>
 #include <igtlioStringDevice.h>
 
+// Slicer includes
+#include "qMRMLThreeDView.h"
+#include "qMRMLThreeDWidget.h"
+#include "qMRMLSliceView.h"
+#include "qMRMLSliceWidget.h"
+
 // std includes
 #include <list>
 

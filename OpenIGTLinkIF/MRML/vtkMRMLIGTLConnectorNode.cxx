@@ -59,6 +59,7 @@ Version:   $Revision: 1.2 $
 #include <vtkMRMLVolumeNode.h>
 
 // VTK includes
+#include <vtkNew.h>
 #include <vtkCollection.h>
 #include <vtkImageData.h>
 #include <vtkMatrix3x3.h>
@@ -66,6 +67,8 @@ Version:   $Revision: 1.2 $
 #include <vtkPolyData.h>
 #include <vtkTimerLog.h>
 #include <vtkWeakPointer.h>
+#include <vtkSmartPointer.h>
+#include "vtkCornerAnnotation.h"
 
 // vtksys includes
 #include <vtksys/SystemTools.hxx>
@@ -1243,8 +1246,8 @@ vtkMRMLIGTLConnectorNode::vtkMRMLIGTLConnectorNode()
   this->Internal->DeviceTypeToNodeTagMap["TDATA"] = std::vector<std::string>(1, "IGTLTrackingDataSplitter");
 
   // Ziteo Pose Scan Time code
-  this->sliceViewPoseScanTime = qSlicerApplication::application()->layoutManager()->sliceWidget("Green")->sliceView();
-  this->startPoseScanTime = clock(); // pose scan start time
+  sliceViewPoseScanTime = qSlicerApplication::application()->layoutManager()->sliceWidget("Green")->sliceView();
+  startPoseScanTime = clock(); // pose scan start time
 }
 
 //----------------------------------------------------------------------------
@@ -1399,8 +1402,6 @@ void vtkMRMLIGTLConnectorNode::ProcessIOConnectorEvents(vtkObject* caller, unsig
     connector->SendMessage(igtlioDeviceKeyType::CreateDeviceKey(statusDevice));
     connector->RemoveDevice(statusDevice);
 
-    this->DisplayPoseScanTime();
-
     this->PushOnConnect();
   }
   else if (mrmlEvent == DisconnectedEvent)
@@ -1444,10 +1445,6 @@ void vtkMRMLIGTLConnectorNode::PushOnConnect()
   }
 }
 
-void vtkMRMLIGTLConnectorNode::DisplayPoseScanTime()
-{
-
-}
 
 //----------------------------------------------------------------------------
 void vtkMRMLIGTLConnectorNode::ProcessIODeviceEvents(vtkObject* caller, unsigned long event, void* callData)
@@ -2551,7 +2548,8 @@ void vtkMRMLIGTLConnectorNode::PeriodicProcess()
   clock_t endPoseScanTime = clock() - this->startPoseScanTime;
   double poseScanExecTime = ((double)endPoseScanTime/CLOCKS_PER_SEC); // sec
   std::string poseScanTime = "Pose Scan Time: " + std::to_string(poseScanExecTime);
-  this->sliceViewPoseScanTime->overlayCornerAnnotation()->SetText(vtk::vtkCornerAnnotation.UpperRight, poseScanTime.c_str());
+  vtkCornerAnnotation* cornerAnnotation = this->sliceViewPoseScanTime->overlayCornerAnnotation();
+  cornerAnnotation->SetText(vtkCornerAnnotation::TextPosition::UpperRight, poseScanTime.c_str());
   this->startPoseScanTime = clock(); // restart poseScan Timer
 }
 
